@@ -1,0 +1,114 @@
+openapi: "3.0.1"
+info:
+  description: >-
+    This is a backend for a web application to managing theater tickets
+  title: "ticket api"
+  version: "2020-04-02T16:34:50Z"
+  contact:
+   email: tanubhargava180@gmail.com
+servers:
+- url: "https://localhost:8080"
+paths:
+  /customers:
+    post:
+      tags:
+        - Theatre app
+      summary: Fetch data from MongoDB
+      description: |
+        Fetch data from MongoDB.
+      operationId: add customer details
+      parameters:
+      - name: "AuthHeader"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/fetchTicketInput"
+        required: true
+      responses:
+        400:
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObj"
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /customers/{customer_id}:
+    put:
+      tags:
+        - Theatre app
+      summary: Update a customer with valid details 
+      operationId: updatecustomer
+      parameters:
+       - name: customer_id
+         in: path
+         description: Id of customer to retrieve.
+         required: true
+         schema:
+            $ref: '#/components/schemas/customerid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/fetchTicketInput"
+        required: true
+      responses:
+        400:
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObj"
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+components:
+  schemas:
+    fetchTicketInput:
+      type: "object"
+      properties:
+        creation_date:
+          type: "string"
+          description: "Date of adding customer details"
+          format: "date"
+        customer_name:
+          type: "string"
+          description: "Name of the customer"
+        ticket_price:
+          type: "integer"
+          description: "Price of the ticket"
+          format: "int32"
+    ErrorObj:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          default : "Bad request"
+    customerid:
+      type: integer
+      format: int64
+      example: 5356
+      description: Id of the customer.
+    Empty:
+      title: "Empty Schema"
+      type: "object"
