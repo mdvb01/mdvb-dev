@@ -9,6 +9,7 @@ npm install
 run the index file : node index.js
 hit the apis from POSTMAN
 http://localhost:8080/api
+Start with /login to get the token and use that token as header in other request
 
 ## environment variables
 
