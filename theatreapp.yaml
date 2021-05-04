@@ -7,13 +7,13 @@ info:
   contact:
    email: tanubhargava180@gmail.com
 servers:
-- url: "https://localhost:8080"
+- url: "https://localhost:8080/api"
 paths:
-  /customers:
+  /customer:
     post:
       tags:
         - Theatre app
-      summary: Fetch data from MongoDB
+      summary: Add data from MongoDB
       description: |
         Fetch data from MongoDB.
       operationId: add customer details
@@ -46,7 +46,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Empty"
-  /customers/{customer_id}:
+    get:
+      tags:
+        - Theatre app
+      summary: Get all the data from MongoDB
+      description: |
+        Get all data from MongoDB.
+      operationId: Fetch customer details
+      responses:
+        400:
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObj"
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
+  /customer/{customer_id}:
     put:
       tags:
         - Theatre app
@@ -82,6 +106,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Empty"
+    delete:
+      tags:
+        - Theatre app
+      summary: Delete a customer from the DB 
+      operationId: deleteCustomer
+      parameters:
+       - name: customer_id
+         in: path
+         description: Id of customer to retrieve.
+         required: true
+         schema:
+            $ref: '#/components/schemas/customerid'
+      responses:
+        400:
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorObj"
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Success"
 components:
   schemas:
     fetchTicketInput:
@@ -104,6 +157,12 @@ components:
         message:
           type: "string"
           default : "Bad request"
+    Success:
+      type: "object"
+      properties:
+        message:
+          type: "string"
+          default : "Success"
     customerid:
       type: integer
       format: int64
