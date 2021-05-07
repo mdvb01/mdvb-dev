@@ -17,12 +17,6 @@ paths:
       description: |
         Fetch data from MongoDB.
       operationId: add customer details
-      parameters:
-      - name: "AuthHeader"
-        in: "header"
-        required: true
-        schema:
-          type: "string"
       requestBody:
         content:
           application/json:
